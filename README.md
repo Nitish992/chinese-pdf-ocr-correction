@@ -10,30 +10,26 @@ This project is a proof of concept (PoC) for extracting text from Chinese PDFs u
 - Full-screen width layout with progress bars and status updates during processing.
 - Dockerized for easy deployment and portability on Linux systems.
 
-## Prerequisites
-
-### System Dependencies (Linux)
-
-Ubuntu/Debian-based systems (or equivalent for other Linux distributions):
-
-```bash
-sudo apt update
-sudo apt install tesseract-ocr tesseract-ocr-chi-sim poppler-utils
-```
-
-- Use `tesseract-ocr-chi-tra` instead of `tesseract-ocr-chi-sim` for Traditional Chinese support if needed.
-- Ensure Poppler (`poppler-utils`) is installed and accessible in your PATH.
 
 ## Installation
 
 ### Clone the Repository
 
-Clone it:
 
 ```bash
-git clone <repository-url>
-cd chinese-pdf-ocr-poc
+git clone https://github.com/Nitish992/chinese-pdf-ocr-correction
+cd chinese-pdf-ocr-correction
 ```
+
+### Set Up Environment Variables
+
+An example `env.example` file is provided in the repository. To set up your environment, rename it to `.env`:
+
+```bash
+cp .env.example .env
+```
+
+This `.env` file already contains a placeholder API key that you can use to test the application.
 
 ### Docker Installation
 
