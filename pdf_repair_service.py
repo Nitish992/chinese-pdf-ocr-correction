@@ -1,6 +1,7 @@
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_core.runnables import RunnableSequence
 from pdf2image import convert_from_path
 import pytesseract
 import logging
@@ -21,7 +22,7 @@ class PDFRepairService:
     with context-aware processing via LangChain runnables, and assemble the corrected text into a coherent document.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initialize the PDFRepairService with OpenRouter API key and Tesseract configuration.
         """
@@ -50,7 +51,7 @@ class PDFRepairService:
         # Initialize context history (summary)
         self.previous_summary = ""
 
-    def _check_poppler_installation(self):
+    def _check_poppler_installation(self) -> None:
         """
         Check if Poppler is installed and accessible in PATH.
 
@@ -66,7 +67,7 @@ class PDFRepairService:
                 "(e.g., `sudo apt install poppler-utils` on Ubuntu/Debian) and ensure it’s accessible."
             )
 
-    def extract_text_from_pdf(self, pdf_path):
+    def extract_text_from_pdf(self, pdf_path) -> str:
         """
         Extract raw text from a PDF using Tesseract OCR without any cleaning.
 
@@ -94,7 +95,7 @@ class PDFRepairService:
             logger.error(f"Error extracting text from PDF: {e}")
             raise
 
-    def _create_correction_runnable(self):
+    def _create_correction_runnable(self) -> RunnableSequence:
         """
         Create a LangChain runnable for correcting OCR errors with DeepSeek.
 
@@ -115,7 +116,7 @@ class PDFRepairService:
         )
         return correction_prompt | self.llm
 
-    def _create_summarization_runnable(self):
+    def _create_summarization_runnable(self) -> RunnableSequence:
         """
         Create a LangChain runnable for summarizing the history of corrected text.
 
@@ -131,7 +132,7 @@ class PDFRepairService:
         )
         return summarization_prompt | self.llm
 
-    def correct_text_with_runnables(self, text_chunk, context=""):
+    def correct_text_with_runnables(self, text_chunk, context="") -> str:
         """
         Correct OCR errors in a text chunk using the correction runnable, with summarized context.
 
@@ -163,7 +164,7 @@ class PDFRepairService:
             logger.error(f"Error correcting text with DeepSeek runnables: {e}")
             raise
 
-    def split_and_correct_text_with_runnables(self, text, chunk_size=2000, chunk_overlap=200):
+    def split_and_correct_text_with_runnables(self, text, chunk_size=2000, chunk_overlap=200) -> list[str]:
         """
         Split text into chunks, correct each chunk using DeepSeek runnables with context awareness, and return corrected chunks.
 
@@ -196,7 +197,7 @@ class PDFRepairService:
             logger.error(f"Error splitting and correcting text: {e}")
             raise
 
-    def reassemble_text(self, corrected_chunks, original_text_length=None):
+    def reassemble_text(self, corrected_chunks, original_text_length=None) -> str:
         """
         Reassemble corrected chunks into a coherent document, assuming overlaps were handled during correction.
 
@@ -225,7 +226,7 @@ class PDFRepairService:
             logger.error(f"Error reassembling text: {e}")
             raise
 
-    def process_pdf(self, pdf_path):
+    def process_pdf(self, pdf_path) -> str:
         """
         Process a PDF: extract raw text with OCR, correct errors with DeepSeek runnables using context awareness, and reassemble.
 
