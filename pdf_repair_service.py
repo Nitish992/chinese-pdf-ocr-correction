@@ -1,4 +1,3 @@
-from langchain_deepseek import ChatDeepSeek
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from langchain.text_splitter import RecursiveCharacterTextSplitter
