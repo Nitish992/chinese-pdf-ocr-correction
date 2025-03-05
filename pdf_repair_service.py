@@ -1,3 +1,4 @@
+from langchain_deepseek import ChatDeepSeek
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -11,6 +12,7 @@ import subprocess
 
 # Load environment variables
 load_dotenv()
+
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -28,10 +30,15 @@ class PDFRepairService:
         """
         # Initialize DeepSeek model via LangChain (OpenRouter configuration)
         try:
+
+            # self.llm = ChatDeepSeek(
+            #     model="deepseek-chat",
+            #     temperature=0,
+            # )
             self.llm = ChatOpenAI(
-                openai_api_key=os.getenv("OPENROUTER_API_KEY"),
-                openai_api_base=os.getenv("OPENROUTER_BASE_URL"),
-                model_name="deepseek/deepseek-r1:free",
+            openai_api_key=os.getenv("OPENROUTER_API_KEY"),
+            openai_api_base='https://openrouter.ai/api/v1',
+            model_name="deepseek/deepseek-r1:free",
             )
             logger.info("DeepSeek model initialized successfully.")
         except Exception as e:
