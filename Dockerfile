@@ -15,7 +15,6 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Copy the application files
-COPY .env .
 COPY app.py .
 COPY pdf_repair_service.py .
 
